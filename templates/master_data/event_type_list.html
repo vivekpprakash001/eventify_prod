@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h3>Event Categories</h3>
+  <a class="btn btn-success" href="{% url 'master_data:event_type_add' %}">Add Category</a>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>#</th><th>Event Type</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for c in categories %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ c.event_type }}</td>
+        <td>
+          <a class="btn btn-sm btn-primary" href="{% url 'master_data:event_type_edit' c.pk %}">Edit</a>
+          <a class="btn btn-sm btn-danger" href="{% url 'master_data:event_type_delete' c.pk %}">Delete</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="3">No categories yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
