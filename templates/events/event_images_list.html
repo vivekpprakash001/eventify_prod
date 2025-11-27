@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Images for {{ event.title }}</h3>
+        <a class="btn btn-success" href="{% url 'events:add_event_images' event.pk %}">
+            <i class="bi bi-plus-circle"></i> Add More Images
+        </a>
+    </div>
+
+    <div class="row g-4">
+        {% for img in images %}
+        <div class="col-md-3 col-sm-6">
+            <div class="card shadow-sm h-100">
+
+                <img src="{{ img.event_image.url }}" class="card-img-top rounded-top" alt="Event Image">
+
+                <div class="card-body text-center">
+
+                    {% if img.is_primary %}
+                        <h6><span class="badge bg-primary">Primary Image</span></h6>
+                    {% else %}
+                        <a href="{% url 'events:set_primary_image' event.pk img.pk %}"
+                           class="btn btn-outline-primary btn-sm w-100 mb-2">
+                            Set as Primary
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'events:delete_event_image' event.pk img.pk %}"
+                       class="btn btn-danger btn-sm w-100">
+                        Delete Image
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                No images uploaded yet for this event.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'events:event_list' %}" class="btn btn-secondary mt-4">
+        Back to Events
+    </a>
+</div>
+{% endblock %}

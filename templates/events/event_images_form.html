@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Upload Images for: {{ event.title }}</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Image field -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.event_image.label }}</label>
+                    {{ form.event_image }}
+                </div>
+
+                <!-- Primary flag (optional) -->
+                <div class="form-check mb-3">
+                    {{ form.is_primary }}
+                    <label class="form-check-label">{{ form.is_primary.label }}</label>
+                </div>
+
+                <button class="btn btn-primary">
+                    <i class="bi bi-upload"></i> Upload
+                </button>
+
+                <a href="{% url 'events:event_images' event.pk %}" class="btn btn-secondary">
+                    Back
+                </a>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

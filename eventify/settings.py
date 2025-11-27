@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'master_data',
     'events',
     'accounts',
+    'templatetags'
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,7 @@
 from django.db import models
 from master_data.models import EventType
 
+
 class Event(models.Model):
     created_date = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=200)
@@ -32,6 +33,7 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.start_date})"
+
 
 class EventImages(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
