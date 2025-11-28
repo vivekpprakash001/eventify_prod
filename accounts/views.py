@@ -53,7 +53,7 @@ class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("home")  # Redirect authenticated user
+        return redirect("dashboard")  # Redirect authenticated user
 
     form = LoginForm(request, data=request.POST or None)
 
