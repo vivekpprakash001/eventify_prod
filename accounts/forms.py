@@ -2,31 +2,26 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import User
+from django import forms
 
 
-class UserForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'phone_number', 'role',
-                  'is_staff', 'is_customer', 'is_user')
-
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control form-control-sm'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
-            'role': forms.Select(attrs={'class': 'form-select form-select-sm'}),
-            'is_staff': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'is_customer': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'is_user': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        }
-
+class UserForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        # Apply bootstrap small styling to password fields
-        self.fields['password1'].widget.attrs.update({'class': 'form-control form-control-sm'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control form-control-sm'})
+        for field in self.fields.values():
+            field.widget.attrs.update({"class": "form-control"})
 
 
 class LoginForm(AuthenticationForm):
-    pass
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Enter username"
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            "class": "form-control",
+            "placeholder": "Enter password"
+        })
+    )

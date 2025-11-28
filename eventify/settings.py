@@ -9,11 +9,10 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me-in-production')
 #
 # ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    '216.48.180.218',
-    'uat.eventify.com'
+    '*'
 ]
 
 INSTALLED_APPS = [
