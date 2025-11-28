@@ -4,12 +4,27 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import User
 from django import forms
 
+from django import forms
+from django.contrib.auth.models import User
 
-class UserForm(AuthenticationForm):
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password"]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({"class": "form-control"})
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        return super().form_valid(form)
 
 
 class LoginForm(AuthenticationForm):
