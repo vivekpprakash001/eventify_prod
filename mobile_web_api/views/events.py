@@ -176,8 +176,10 @@ class EventImagesListAPI(APIView):
                     )
 
                 event_images = EventImages.objects.filter(id=event_id)
-                data = model_to_dict(event_images)
                 data["status"] = "success"
+                event_images_list = []
+                for ei in event_images:
+                    event_images_list.append(request.build_absolute_uri(ei.event_image.url))
 
                 return JsonResponse(data)
 
