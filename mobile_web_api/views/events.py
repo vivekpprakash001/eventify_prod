@@ -181,6 +181,8 @@ class EventImagesListAPI(APIView):
                 for ei in event_images:
                     event_images_list.append(request.build_absolute_uri(ei.event_image.url))
 
+                data["images"] = event_images_list
+
                 return JsonResponse(data)
 
             except Token.DoesNotExist:
