@@ -134,7 +134,7 @@ class EventDetailAPI(APIView):
                 thumb_img = EventImages.objects.get(id=event_id, is_primary=True)
                 data = model_to_dict(events)
                 data["status"] = "success"
-                data["thumb_img"] = thumb_img.url
+                data["thumb_img"] = request.build_absolute_uri(thumb_img.url)
 
                 return JsonResponse(data)
 
