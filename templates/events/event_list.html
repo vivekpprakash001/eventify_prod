@@ -1,27 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="d-flex justify-content-between mb-3">
-  <h3>Events</h3>
-  <a class="btn btn-success" href="{% url 'events:event_add' %}">Add Event</a>
-</div>
-<table class="table table-hover">
-  <thead><tr><th>#</th><th>Name</th><th>Type</th><th>Dates</th><th>Place</th><th>Actions</th></tr></thead>
-  <tbody>
-    {% for e in events %}
-      <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ e.name }}</td>
-        <td>{{ e.event_type }}</td>
-        <td>{{ e.start_date }} - {{ e.end_date }}</td>
-        <td>{{ e.place }}</td>
-        <td>
-          <a class="btn btn-sm btn-primary" href="{% url 'events:event_edit' e.pk %}">Edit</a>
-          <a class="btn btn-sm btn-danger" href="{% url 'events:event_delete' e.pk %}">Delete</a>
-        </td>
-      </tr>
-    {% empty %}
-      <tr><td colspan="6">No events found.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <div class="d-flex justify-content-between mb-3">
+        <h3>Events</h3>
+        <a class="btn btn-success" href="{% url 'events:event_add' %}">Add Event</a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Event ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Dates</th>
+            <th>Place</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in events %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ e.id }}</td>
+                <td>{{ e.name }}</td>
+                <td>{{ e.event_type }}</td>
+                <td>{{ e.start_date }} - {{ e.end_date }}</td>
+                <td>{{ e.place }}</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{% url 'events:event_edit' e.pk %}">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'events:event_delete' e.pk %}">Delete</a>
+                    <a class="btn btn-sm btn-warning" href="{% url 'events:add_event_images' e.pk %}">
+                        Add Images
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">No events found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

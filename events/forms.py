@@ -10,8 +10,13 @@ class EventForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'important_information': forms.Textarea(attrs={'class': 'form-control'}),
+            'venue_name': forms.TextInput(attrs={'class': 'form-control'}),
             'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'start_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
             'latitude': forms.NumberInput(attrs={'class': 'form-control'}),
             'longitude': forms.NumberInput(attrs={'class': 'form-control'}),
             'pincode': forms.TextInput(attrs={'class': 'form-control'}),

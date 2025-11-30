@@ -25,7 +25,10 @@ INSTALLED_APPS = [
     'master_data',
     'events',
     'accounts',
-    'templatetags'
+    'templatetags',
+    'mobile_web_api',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
