@@ -131,8 +131,10 @@ class EventDetailAPI(APIView):
                     )
 
                 events = Event.objects.get(id=event_id)
+                thumb_img = EventImages.objects.get(id=event_id, is_primary=True)
                 data = model_to_dict(events)
                 data["status"] = "success"
+                data["thumb_img"] = thumb_img.url
 
                 return JsonResponse(data)
 
@@ -151,12 +153,43 @@ class EventDetailAPI(APIView):
 
 
 class EventImagesListAPI(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
 
-    def get(self, request, event_id):
-        images = EventImages.objects.filter(event_id=event_id)
+            token_key = data.get("token")
+            username = data.get("username")
+            event_id = data.get("event_id")
 
-        image_list = [model_to_dict(i) for i in images]
+            if not token_key or not username:
+                return JsonResponse(
+                    {"status": "error", "message": "token and username required"}
+                )
 
-        return JsonResponse({"status": True, "images": image_list}, safe=False)
+            try:
+                token = Token.objects.get(key=token_key)
+                user = token.user
+
+                if user.username != username:
+                    return JsonResponse(
+                        {"status": "error", "message": "token does not match user"}
+                    )
+
+                event_images = EventImages.objects.filter(id=event_id)
+                data = model_to_dict(event_images)
+                data["status"] = "success"
+
+                return JsonResponse(data)
+
+            except Token.DoesNotExist:
+                return JsonResponse({"status": "invalid_token"})
+
+        except json.JSONDecodeError:
+            return JsonResponse(
+                {"status": "error", "message": "Invalid JSON"}
+            )
+
+        except Exception as e:
+            return JsonResponse(
+                {"status": "error", "message": str(e)},
+            )
