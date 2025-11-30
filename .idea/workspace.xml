@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a0020f0b-7bf3-4cde-a27d-39657ebd0286" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/mobile_web_api/views/events.py" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_web_api/views/events.py" afterDir="false" />
-    </list>
+    <list default="true" id="a0020f0b-7bf3-4cde-a27d-39657ebd0286" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile_web_api/views/events.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="183" column="41" lean-forward="true" selection-start-line="183" selection-start-column="41" selection-end-line="183" selection-end-column="41" />
+            <state relative-caret-position="140">
+              <caret line="180" column="33" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="33" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -51,7 +49,7 @@
         <entry file="file://$PROJECT_DIR$/mobile_web_api/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="265">
-              <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+              <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -324,7 +322,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764194364815</updated>
       <workItem from="1764194366807" duration="12589000" />
-      <workItem from="1764319665186" duration="22407000" />
+      <workItem from="1764319665186" duration="22650000" />
     </task>
     <task id="LOCAL-00001" summary="Changes in the settings for the deployment">
       <created>1764280838609</created>
@@ -351,10 +349,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34996000" />
+    <option name="totallyTimeSpent" value="35239000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25416037" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -745,7 +744,7 @@
     <entry file="file://$PROJECT_DIR$/mobile_web_api/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="265">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+          <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -754,8 +753,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile_web_api/views/events.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="183" column="41" lean-forward="true" selection-start-line="183" selection-start-column="41" selection-end-line="183" selection-end-column="41" />
+        <state relative-caret-position="140">
+          <caret line="180" column="33" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="33" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>

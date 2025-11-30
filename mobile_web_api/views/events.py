@@ -175,7 +175,7 @@ class EventImagesListAPI(APIView):
                         {"status": "error", "message": "token does not match user"}
                     )
 
-                event_images = EventImages.objects.filter(id=event_id)
+                event_images = EventImages.objects.filter(event=event_id)
                 res_data = {}
                 res_data["status"] = "success"
                 event_images_list = []
