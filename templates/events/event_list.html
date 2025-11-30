@@ -28,8 +28,8 @@
                 <td>
                     <a class="btn btn-sm btn-primary" href="{% url 'events:event_edit' e.pk %}">Edit</a>
                     <a class="btn btn-sm btn-danger" href="{% url 'events:event_delete' e.pk %}">Delete</a>
-                    <a class="btn btn-sm btn-warning" href="{% url 'events:add_event_images' e.pk %}">
-                        Add Images
+                    <a class="btn btn-sm btn-warning" href="{% url 'events:event_images' e.pk %}">
+                        Images
                     </a>
                 </td>
             </tr>
