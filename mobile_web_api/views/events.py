@@ -176,14 +176,15 @@ class EventImagesListAPI(APIView):
                     )
 
                 event_images = EventImages.objects.filter(id=event_id)
-                data["status"] = "success"
+                res_data = {}
+                res_data["status"] = "success"
                 event_images_list = []
                 for ei in event_images:
                     event_images_list.append(request.build_absolute_uri(ei.event_image.url))
 
-                data["images"] = event_images_list
+                res_data["images"] = event_images_list
 
-                return JsonResponse(data)
+                return JsonResponse(res_data)
 
             except Token.DoesNotExist:
                 return JsonResponse({"status": "invalid_token"})
