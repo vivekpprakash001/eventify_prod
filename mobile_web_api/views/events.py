@@ -134,10 +134,13 @@ class EventDetailAPI(APIView):
                     )
 
                 events = Event.objects.get(id=event_id)
-                thumb_img = EventImages.objects.get(id=event_id, is_primary=True)
+                event_images = EventImages.objects.filter(event=event_id)
                 data = model_to_dict(events)
                 data["status"] = "success"
-                data["thumb_img"] = request.build_absolute_uri(thumb_img.event_image.url)
+                event_images_list = []
+                for ei in event_images:
+                    event_images_list.append(request.build_absolute_uri(ei.event_image.url))
+                data["images"] = event_images_list
 
                 return JsonResponse(data)
 
