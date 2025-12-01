@@ -141,7 +141,7 @@ class EventDetailAPI(APIView):
                 for ei in event_images:
                     event_img = {}
                     event_img['is_primary'] = ei.is_primary
-                    event_img['image'] = event_images_list.append(request.build_absolute_uri(ei.event_image.url))
+                    event_img['image'] = request.build_absolute_uri(ei.event_image.url)
                     event_images_list.append(event_img)
                 data["images"] = event_images_list
 
