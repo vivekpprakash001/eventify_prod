@@ -86,7 +86,10 @@ class EventListAPI(APIView):
                 event_list = []
 
                 for e in events:
-                    event_list.append(model_to_dict(e))
+                    data_dict = model_to_dict(e)
+                    thumb_img = EventImages.objects.get(id=e.id, is_primary=True)
+                    data_dict['thumb_img'] = request.build_absolute_uri(thumb_img.event_image.url)
+                    event_list.append(data_dict)
 
                 return JsonResponse({
                     "status": "success",
