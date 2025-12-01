@@ -87,7 +87,10 @@ class EventListAPI(APIView):
 
                 for e in events:
                     data_dict = model_to_dict(e)
-                    thumb_img = EventImages.objects.get(id=e.id, is_primary=True)
+                    print('*' * 10)
+                    print(e.id)
+                    print('*' * 10)
+                    thumb_img = EventImages.objects.get(event=e.id, is_primary=True)
                     data_dict['thumb_img'] = request.build_absolute_uri(thumb_img.event_image.url)
                     event_list.append(data_dict)
 

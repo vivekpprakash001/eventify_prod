@@ -16,6 +16,5 @@ urlpatterns += [
     path('events/type-list/', EventTypeListAPIView.as_view()),
     path('events/pincode-events/', EventListAPI.as_view()),
     path('events/event-details/', EventDetailAPI.as_view()),
-
     path('events/event-images/', EventImagesListAPI.as_view()),
 ]
