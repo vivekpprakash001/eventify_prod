@@ -90,8 +90,12 @@ class EventListAPI(APIView):
                     print('*' * 10)
                     print(e.id)
                     print('*' * 10)
-                    thumb_img = EventImages.objects.get(event=e.id, is_primary=True)
-                    data_dict['thumb_img'] = request.build_absolute_uri(thumb_img.event_image.url)
+                    try:
+                        thumb_img = EventImages.objects.get(event=e.id, is_primary=True)
+                        data_dict['thumb_img'] = request.build_absolute_uri(thumb_img.event_image.url)
+                    except EventImages.DoesNotExist:
+                        data_dict['thumb_img'] = ''
+
                     event_list.append(data_dict)
 
                 return JsonResponse({
