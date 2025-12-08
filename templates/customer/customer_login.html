@@ -1,0 +1,35 @@
+{% extends "customer/base_auth.html" %}
+{% block title %}Login{% endblock %}
+{% block left_heading %}Welcome Back{% endblock %}
+{% block left_subtext %}Login to access your events dashboard{% endblock %}
+
+{% block content %}
+<h2>Sign In</h2>
+<p class="subtitle">Enter your credentials to continue</p>
+
+<form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+  <div class="input-group">
+    <label for="id_username">Email or Username</label>
+    <input id="id_username" name="username" type="text" required>
+    {% if form.username.errors %}
+      <div class="errorlist">{{ form.username.errors }}</div>
+    {% endif %}
+  </div>
+
+  <div class="input-group">
+    <label for="id_password">Password</label>
+    <input id="id_password" name="password" type="password" required>
+    {% if form.password.errors %}
+      <div class="errorlist">{{ form.password.errors }}</div>
+    {% endif %}
+  </div>
+
+  
+  <button class="btn-primary" type="submit">Login</button>
+</form>
+
+<div class="redirect">
+  Don't have an account? <a class="link" href="{% url 'register' %}">Sign Up</a>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{% block title %}Auth{% endblock %}</title>
+  <style>
+    /* GLOBAL */
+    :root{
+      --blue1:#1e3cfa;
+      --blue2:#3c63ff;
+      --muted:#f4f6ff;
+      --card-bg:#fff;
+      --accent: #3c63ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:var(--muted);color:#111}
+    .auth-wrapper{display:flex;min-height:100vh}
+    .auth-left{
+      width:40%;
+      min-width:320px;
+      background:linear-gradient(180deg,var(--blue1),var(--blue2));
+      color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:center;gap:10px;
+    }
+    .brand{font-weight:700;font-size:28px}
+    .auth-left h1{font-size:36px;margin:0}
+    .auth-left p{opacity:.92;margin:0;font-size:16px}
+
+    .auth-right{flex:1;display:flex;align-items:center;justify-content:center;padding:30px}
+    .auth-card{width:100%;max-width:480px;background:var(--card-bg);border-radius:16px;padding:36px;box-shadow:0 10px 30px rgba(16,24,40,0.08)}
+
+    h2{margin:0 0 6px 0;font-size:24px}
+    .subtitle{color:#666;font-size:14px;margin-bottom:18px}
+
+    .input-group{margin-bottom:14px}
+    .input-group label{display:block;font-size:13px;margin-bottom:8px;color:#333}
+    .input-group input{width:100%;padding:12px;border-radius:10px;border:1.5px solid #e6eefc;background:#f7f9ff;outline:none;transition:.15s}
+    .input-group input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 4px rgba(60,99,255,0.06)}
+
+    .btn-primary{display:inline-block;width:100%;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+    .btn-primary:hover{filter:brightness(.95)}
+
+    .form-links, .redirect{text-align:right;margin-top:10px;font-size:13px}
+    a.link{color:var(--accent);text-decoration:none}
+    .redirect{text-align:center;font-size:14px;margin-top:18px}
+
+    /* messages */
+    .messages{margin-bottom:12px}
+    .message{padding:10px;border-radius:8px;margin-bottom:8px;font-size:14px}
+    .message.info{background:#eef5ff;color:#024}
+    .message.success{background:#ecfdf5;color:#064}
+    .message.warning{background:#fff7e6;color:#7a4b00}
+    .errorlist{color:#b00020;margin:6px 0 0 0;font-size:13px}
+
+    /* responsive */
+    @media (max-width:900px){
+      .auth-wrapper{flex-direction:column}
+      .auth-left{width:100%;min-height:180px;padding:28px;text-align:center}
+      .auth-right{padding:20px}
+      .auth-card{border-radius:14px;padding:28px}
+    }
+  </style>
+</head>
+<body>
+<div class="auth-wrapper">
+  <div class="auth-left">
+    <div class="brand">Eventify</div>
+    <p>{% block left_subtext %}Your events at your fingertips.{% endblock %}</p>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      {% if messages %}
+        <div class="messages">
+          {% for m in messages %}
+            <div class="message {{ m.tags }}">{{ m }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</div>
+</body>
+</html>

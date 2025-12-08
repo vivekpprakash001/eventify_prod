@@ -53,7 +53,7 @@ class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("dashboard")  # Redirect authenticated user
+        return redirect("accounts:dashboard")  # Redirect authenticated user
 
     form = LoginForm(request, data=request.POST or None)
 
@@ -61,7 +61,10 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("dashboard")
+            if user.role == 'admin' or user.role == 'manager' or user.role == 'staff':
+                return redirect("accounts:dashboard")
+            else:
+                messages.error(request, "You are not authorized to access this page.")
         else:
             messages.error(request, "Invalid username or password")
 
@@ -70,4 +73,5 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("login")
+    messages.success(request, "You have been logged out successfully.")
+    return redirect("accounts:login")

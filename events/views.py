@@ -10,6 +10,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 
 
+from django.http import JsonResponse
+from .models import Event
+
+
 class EventListView(LoginRequiredMixin, generic.ListView):
     model = Event
     context_object_name = 'events'
@@ -89,3 +93,5 @@ def delete_event_image(request, pk, img_id):
     image.delete()
     messages.success(request, "Image deleted!")
     return redirect("events:event_images", pk=pk)
+
+

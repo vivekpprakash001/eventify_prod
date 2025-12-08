@@ -1,0 +1,203 @@
+{% extends "customer/base_dashboard.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+    .welcome-box {
+        background: #3c63ff;
+        color: white;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .welcome-text h2 {
+        margin: 0;
+        font-size: 28px;
+    }
+
+    .event-cards-wrapper {
+        display: flex;
+        gap: 15px;
+    }
+
+    .event-card {
+        background: white;
+        padding: 10px 15px;
+        border-radius: 14px;
+        width: 280px;
+        display: flex;
+        gap: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    .event-img {
+        width: 50px;
+        height: 50px;
+        background: gray;
+        border-radius: 10px;
+    }
+
+    .categories {
+        margin: 30px 0 10px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .cat {
+        background: #f1f3ff;
+        padding: 8px 15px;
+        border-radius: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .cat.active {
+        background: #3c63ff;
+        color: white;
+    }
+
+    .event-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        margin-top: 15px;
+    }
+
+    .card {
+        background: white;
+        padding: 12px;
+        border-radius: 15px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .card img {
+        width: 100%;
+        border-radius: 12px;
+        height: 170px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        font-size: 16px;
+        margin: 8px 0 5px;
+        font-weight: 600;
+    }
+
+    .card-details {
+        font-size: 13px;
+        color: #555;
+    }
+
+    .cat-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        margin-right: 6px;
+        vertical-align: middle;
+    }
+
+    .dashboard-container {
+        padding: 30px 40px;
+        max-width: 1200px;
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- WELCOME BANNER -->
+    <div class="welcome-box">
+        <div class="welcome-text">
+            <p>Welcome Back,</p>
+            <h2>{{ request.user.first_name|default:"Jane Doe" }}</h2>
+        </div>
+    </div>
+
+    <h3>Events Around You</h3>
+
+    <!-- CATEGORY LIST -->
+    <div class="categories">
+        {% for category in event_types %}
+        <div class="cat" data-slug="{{ category.id }}">
+            {% if category.event_type_icon %}
+            <img src="{{ category.event_type_icon.url }}" alt="{{ category.event_type }} icon" class="cat-icon">
+            {% endif %}
+            {{ category.event_type }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- EVENT GRID -->
+    <div id="event-grid" class="event-grid">
+        {% for event in events %}
+        <div class="card">
+
+            {% if event.event_image %}
+            <img src="{{ event.event_image }}" alt="">
+            {% else %}
+            <img src="/static/default.jpg" alt="">
+            {% endif %}
+
+            <div class="card-title">{{ event.title }}</div>
+            <div class="card-details">
+                📅 {{ mydate|date:"d-m-Y" }}<br>
+                📍 {{ event.place }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const categories = document.querySelectorAll(".cat");
+        const eventGrid = document.getElementById("event-grid");
+
+        categories.forEach(cat => {
+            cat.addEventListener("click", function () {
+
+                categories.forEach(c => c.classList.remove("active"));
+                this.classList.add("active");
+
+                const slug = this.getAttribute("data-slug");
+                const url = `/api/events/events-by-category/${slug}/`;
+
+                eventGrid.innerHTML = "<p>Loading...</p>";
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        eventGrid.innerHTML = "";
+
+                        if (data.events.length === 0) {
+                            eventGrid.innerHTML = "<p>No events found for this category.</p>";
+                            return;
+                        }
+
+                        data.events.forEach(event => {
+                            const card = `
+                            <div class="card">
+                                <img src="${event.event_image}" alt="">
+                                <div class="card-title">${event.title}</div>
+                                <div class="card-details">
+                                    📅 ${event.start_date}<br>
+                                    📍 ${event.place}
+                                </div>
+                            </div>
+                        `;
+                            eventGrid.innerHTML += card;
+                        });
+                    });
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}

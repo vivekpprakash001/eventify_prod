@@ -10,6 +10,11 @@ User = get_user_model()
 
 
 class UserForm(forms.ModelForm):
+    full_name = forms.CharField(
+        max_length=150,
+        required=True,
+        label="Full Name"
+    )
     password = forms.CharField(
         widget=forms.PasswordInput,
         label="Password"
@@ -39,7 +44,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["username", "email", "phone_number", "role", "password", "confirm_password"]
+        fields = ["username","full_name", "email", "phone_number", "role", "password", "confirm_password"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,0 +1,49 @@
+{% extends "customer/base_auth.html" %}
+{% block title %}Register{% endblock %}
+{% block left_heading %}Create Account{% endblock %}
+{% block left_subtext %}Join and explore exciting events{% endblock %}
+
+{% block content %}
+<h2>Create Account</h2>
+<p class="subtitle">Join and explore exciting events</p>
+
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="input-group">
+    {{ form.full_name.label_tag }} 
+    {{ form.full_name }}
+    {% if form.full_name.errors %}<div class="errorlist">{{ form.full_name.errors }}</div>{% endif %}
+  </div>
+
+  <div class="input-group">
+    {{ form.email.label_tag }}
+    {{ form.email }}
+    {% if form.email.errors %}<div class="errorlist">{{ form.email.errors }}</div>{% endif %}
+  </div>
+
+  <div class="input-group">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+    {% if form.username.errors %}<div class="errorlist">{{ form.username.errors }}</div>{% endif %}
+  </div>
+
+  <div class="input-group">
+    {{ form.password1.label_tag }}
+    {{ form.password1 }}
+    {% if form.password1.errors %}<div class="errorlist">{{ form.password1.errors }}</div>{% endif %}
+  </div>
+
+  <div class="input-group">
+    {{ form.password2.label_tag }}
+    {{ form.password2 }}
+    {% if form.password2.errors %}<div class="errorlist">{{ form.password2.errors }}</div>{% endif %}
+  </div>
+
+  <button class="btn-primary" type="submit">Create Account</button>
+</form>
+
+<div class="redirect">
+  Already have an account? <a class="link" href="{% url 'login' %}">Login</a>
+</div>
+{% endblock %}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #f5f7ff;
+        }
+
+        .layout {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #1e3cfa, #1436c7);
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: white;
+            color: #1436c7;
+        }
+
+        .bottom-nav {
+            margin-top: auto;
+        }
+
+        /* MAIN CONTENT AREA */
+        .content {
+            flex: 1;
+            background: #f5f7ff;
+            padding: 0;
+            overflow-y: scroll;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: white;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e6e9f5;
+        }
+
+        .search-box input {
+            width: 350px;
+            padding: 12px 14px;
+            border: 1.5px solid #dfe3f8;
+            border-radius: 12px;
+            outline: none;
+            background: #f8faff;
+        }
+
+        .profile-section {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profile-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-avatar i {
+            font-size: 20px;
+            color: #555;
+        }
+
+        /* DROPDOWN MENU */
+        .dropdown-menu {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: white;
+            width: 160px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .dropdown-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #f1f4ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo">EVENTIFY</div>
+
+            <div class="nav">
+                <div class="nav-item active">🏠 Home</div>
+                <div class="nav-item">📅 Calendar</div>
+                <div class="nav-item">👤 Profile</div>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item">❓ Help</div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="content">
+            <div class="topbar">
+                <div class="search-box">
+                    <input type="text" placeholder="Search">
+                </div>
+
+                <div class="profile-section" id="profileDropdownBtn">
+                    <div class="profile-avatar">
+                        <i class="fa fa-user"></i>
+                    </div>
+
+                    <!-- DROPDOWN -->
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-item" onclick="window.location.href='{% url 'logout' %}'">Logout</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="page">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropdownBtn = document.getElementById("profileDropdownBtn");
+        const dropdownMenu = document.getElementById("dropdownMenu");
+
+        dropdownBtn.addEventListener("click", () => {
+            dropdownMenu.style.display =
+                dropdownMenu.style.display === "flex" ? "none" : "flex";
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!dropdownBtn.contains(e.target)) {
+                dropdownMenu.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -10,6 +10,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+from django.contrib.auth.decorators import login_required
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class EventTypeListAPIView(APIView):
@@ -214,3 +216,16 @@ class EventImagesListAPI(APIView):
             return JsonResponse(
                 {"status": "error", "message": str(e)},
             )
+
+
+@login_required(login_url="login")
+def api_events_by_category(request, slug):
+    events = Event.objects.filter(event_type=slug)
+
+    events_dict = [model_to_dict(obj) for obj in events]
+
+    for event in events_dict:
+        event['event_image'] = EventImages.objects.get(event=event['id'], is_primary=True).event_image.url
+        # event['start_date'] = convert_date_to_dd_mm_yyyy(event['start_date'])
+
+    return JsonResponse({"events": events_dict})
