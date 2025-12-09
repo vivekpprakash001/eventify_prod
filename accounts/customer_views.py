@@ -111,12 +111,12 @@ def customer_dashboard(request):
     events_dict = [model_to_dict(obj) for obj in events]
 
     for event in events_dict:
-        event['event_image'] = EventImages.objects.get(event=event['id'], is_primary=True).event_image.url
+        image = EventImages.objects.get(event=event['id'], is_primary=True).event_image.url
+        if image:
+            event['event_image'] = image
+        else:
+            event['event_image'] = ''
         # event['start_date'] = convert_date_to_dd_mm_yyyy(event['start_date'])
-
-    print('*' * 10)
-    print(events_dict)
-    print('*' * 10)
 
     context = {
         'event_types': event_types,
