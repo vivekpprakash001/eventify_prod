@@ -111,10 +111,10 @@ def customer_dashboard(request):
     events_dict = [model_to_dict(obj) for obj in events]
 
     for event in events_dict:
-        image = EventImages.objects.get(event=event['id'], is_primary=True).event_image.url
-        if image:
+        try:
+            image = EventImages.objects.get(event=event['id'], is_primary=True).event_image.url
             event['event_image'] = image
-        else:
+        except Exception as e:
             event['event_image'] = ''
         # event['start_date'] = convert_date_to_dd_mm_yyyy(event['start_date'])
 
