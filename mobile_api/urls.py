@@ -17,5 +17,7 @@ urlpatterns += [
     path('events/pincode-events/', EventListAPI.as_view()),
     path('events/event-details/', EventDetailAPI.as_view()),
     path('events/event-images/', EventImagesListAPI.as_view()),
-    path('events/events-by-category/<int:slug>/', api_events_by_category, name='api_events_by_category'),
+    path('events/events-by-category/', EventsByCategoryAPI.as_view(), name='api_events_by_category'),
+    path('events/events-by-month-year/', EventsByMonthYearAPI.as_view(), name='events_by_month_year'),
+    path('events/events-by-date/', EventsByDateAPI.as_view(), name='events_by_date'),
 ]

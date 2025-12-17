@@ -26,19 +26,29 @@ INSTALLED_APPS = [
     'events',
     'accounts',
     'templatetags',
-    'mobile_web_api',
+    'mobile_api',
+    'web_api',
     'rest_framework',
     'rest_framework.authtoken'
 ]
 
+INSTALLED_APPS += [
+    "corsheaders",
+]
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
 ]
 
 ROOT_URLCONF = 'eventify.urls'
@@ -61,23 +71,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eventify.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'eventify_uat_db',      # your DB name
-        'USER': 'eventify_uat',          # your DB user
-        'PASSWORD': 'eventifyplus@!@#$',  # your DB password
-        'HOST': '0.0.0.0',       # or IP/domain
-        'PORT': '5440',            # default PostgreSQL port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'eventify_uat_db',      # your DB name
+#         'USER': 'eventify_uat',          # your DB user
+#         'PASSWORD': 'eventifyplus@!@#$',  # your DB password
+#         'HOST': '0.0.0.0',       # or IP/domain
+#         'PORT': '5440',            # default PostgreSQL port
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

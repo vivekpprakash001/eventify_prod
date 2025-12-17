@@ -5,18 +5,19 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class RegisterForm(UserCreationForm):
     full_name = forms.CharField(max_length=150, required=False, label="Full name")
     email = forms.EmailField(required=True, label="Email")
 
     class Meta:
-        model = get_user_model()
+        model = User
         fields = ("username", "full_name", "email", "password1", "password2")
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        user = get_user_model()
+        user = User
         if user.objects.filter(email__iexact=email).exists():
             raise forms.ValidationError("A user with that email already exists.")
         return email
@@ -60,3 +61,34 @@ class CustomerLoginForm(AuthenticationForm):
             "autocomplete": "current-password",
         })
     )
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "pincode",
+            "district",
+            "state",
+            "country",
+            "place",
+            "latitude",
+            "longitude",
+        ]
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "phone_number": forms.TextInput(attrs={"class": "form-control"}),
+            "pincode": forms.TextInput(attrs={"class": "form-control"}),
+            "district": forms.TextInput(attrs={"class": "form-control"}),
+            "state": forms.TextInput(attrs={"class": "form-control"}),
+            "country": forms.TextInput(attrs={"class": "form-control"}),
+            "place": forms.TextInput(attrs={"class": "form-control"}),
+            "latitude": forms.NumberInput(attrs={"class": "form-control", "step": "any"}),
+            "longitude": forms.NumberInput(attrs={"class": "form-control", "step": "any"}),
+        }

@@ -1,0 +1,256 @@
+{% extends "customer/base_dashboard.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .calendar-wrapper {
+        display: flex;
+        width: 100%;
+        padding: 40px;
+        gap: 30px;
+    }
+
+    /* LEFT CALENDAR PANEL */
+    
+    .calendar-card {
+        flex: 0.58;
+        background: white;
+        border-radius: 22px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .calendar-header button {
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #555;
+        cursor: pointer;
+    }
+
+    .calendar-title h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .calendar-title p {
+        margin: 0;
+        color: #777;
+        font-size: 14px;
+    }
+
+    .weekday-row,
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+    }
+
+    .weekday-row {
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .calendar-day {
+        height: 65px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .calendar-day.inactive {
+        color: #ccc;
+    }
+
+    .selected-day {
+        position: absolute;
+        inset: 0;
+        background: #e7f0ff;
+        border-radius: 14px;
+        z-index: 0;
+    }
+
+    .calendar-day span {
+        z-index: 2;
+        font-weight: 600;
+        color: #1a47d1;
+    }
+
+    .day-icons {
+        display: flex;
+        gap: -8px;
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .day-icons img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+
+    /* RIGHT EVENTS PANEL */
+    .events-card {
+        flex: 0.42;
+        background: white;
+        border-radius: 22px;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .events-header {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+        align-items: center;
+    }
+
+    .date-tag {
+        background: #1e3cfa;
+        color: white;
+        padding: 8px 14px;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .event-card {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+
+    .event-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+
+    .event-content {
+        padding: 12px 15px;
+    }
+
+    .event-content h4 {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .event-meta {
+        font-size: 14px;
+        color: #777;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+</style>
+
+
+
+<div class="calendar-wrapper">
+
+    <!-- LEFT CALENDAR -->
+    <div class="calendar-card">
+
+        <div class="calendar-header">
+            <button>&lt;</button>
+
+            <div class="calendar-title">
+                <h2>{{ month_name }}</h2>
+                <p>{{ year }}</p>
+            </div>
+
+            <button>&gt;</button>
+        </div>
+
+        <!-- Weekdays -->
+        <div class="weekday-row">
+            <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div>
+            <div style="color:red;">S</div>
+            <div style="color:red;">S</div>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="calendar-grid">
+            {% for week in calendar_weeks %}
+                {% for day in week %}
+                    {% if day.month == current_month %}
+                        <div class="calendar-day">
+                            {% if day.day == selected_day %}
+                                <div class="selected-day"></div>
+                            {% endif %}
+
+                            <span>{{ day.day }}</span>
+
+                            {% if day.events %}
+                                <div class="day-icons">
+                                    {% for ev in day.events %}
+                                        <img src="{{ ev.icon }}">
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="calendar-day inactive">{{ day.day }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- RIGHT EVENTS -->
+    <div class="events-card">
+
+        <div class="events-header">
+            <div class="date-tag">{{ selected_day }} {{ selected_month_short }}</div>
+            <div>
+                <h3 style="margin:0;font-size:18px;font-weight:700;">
+                    {{ selected_date_verbose }}
+                </h3>
+                <p style="margin:0;color:#777;font-size:14px;">
+                    {{ events|length }} Events
+                </p>
+            </div>
+        </div>
+
+        {% for event in events %}
+        <div class="event-card">
+            <img src="{{ event.image }}">
+            <div class="event-content">
+                <h4>{{ event.title }}</h4>
+                <div class="event-meta">
+                    📅 {{ event.date }}  
+                    📍 {{ event.location }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -16,7 +16,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 
-from .customer_forms import RegisterForm, CustomerLoginForm
+from .customer_forms import RegisterForm
+from .customer_forms import CustomerLoginForm
+from .customer_forms import CustomerProfileForm
 
 from django.contrib.auth import logout
 from django.shortcuts import redirect
@@ -128,3 +130,26 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out successfully.")
     return redirect("login")
+
+
+@login_required(login_url="login")
+def customer_calendar(request):
+    return render(request, "customer/customer_calendar.html")
+
+
+
+# ...existing imports...
+
+@login_required(login_url="login")
+def customer_profile(request):
+    user = request.user
+    if request.method == "POST":
+        form = CustomerProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated.")
+            return redirect("customer_profile")
+    else:
+        form = CustomerProfileForm(instance=user)
+
+    return render(request, "customer/customer_profile.html", {"form": form})
