@@ -34,6 +34,10 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Set source to 'official' only and hide the field
+        self.fields['source'].initial = 'official'
+        self.fields['source'].widget = forms.HiddenInput()
+        
         # Check if all_year_event is True (from instance or initial data)
         all_year_event = False
         if self.instance and self.instance.pk:
@@ -53,6 +57,9 @@ class EventForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         all_year_event = cleaned_data.get('all_year_event', False)
+        
+        # Force source to be 'official' only
+        cleaned_data['source'] = 'official'
         
         # If all_year_event is True, clear date/time fields
         if all_year_event:

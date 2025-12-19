@@ -1,3 +1,4 @@
+from random import choices
 from django.db import models
 from master_data.models import EventType
 
@@ -37,6 +38,11 @@ class Event(models.Model):
     title = models.CharField(max_length=250, blank=True)
     important_information = models.TextField(blank=True)
     venue_name = models.CharField(max_length=250, blank=True)
+
+    source = models.CharField(max_length=250, blank=True, choices=[
+        ('official', 'Official'),
+        ('community', 'Community'),
+    ])
 
     def __str__(self):
         return f"{self.name} ({self.start_date})"
