@@ -47,8 +47,10 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://prototype.eventifyplus.com/"
 ]
 
 ROOT_URLCONF = 'eventify.urls'
