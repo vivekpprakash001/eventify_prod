@@ -50,7 +50,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://prototype.eventifyplus.com/"
+    "https://prototype.eventifyplus.com/",
+    "https://eventifyplus.com/"
 ]
 
 ROOT_URLCONF = 'eventify.urls'
