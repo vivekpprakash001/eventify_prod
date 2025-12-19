@@ -23,7 +23,11 @@
                 <td>{{ e.id }}</td>
                 <td>{{ e.name }}</td>
                 <td>{{ e.event_type }}</td>
-                <td>{{ e.start_date }} - {{ e.end_date }}</td>
+                {% if e.all_year_event %}
+                    <td>All Year</td>
+                {% else %}
+                    <td>{{ e.start_date }} - {{ e.end_date }}</td>
+                {% endif %}
                 <td>{{ e.place }}</td>
                 <td>
                     <a class="btn btn-sm btn-primary" href="{% url 'events:event_edit' e.pk %}">Edit</a>
