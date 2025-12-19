@@ -63,10 +63,8 @@ class EventListAPI(APIView):
             print(pincode)
             print('*' * 100)
             # pincode is optional - if not provided or 'all', return all events
-            if not pincode or pincode == 'all':
-                events = Event.objects.all().order_by('-created_date')
-            else:
-                events = Event.objects.filter(pincode=pincode).order_by('-created_date')
+
+            events = Event.objects.all().order_by('-created_date')
             
             event_list = []
 
