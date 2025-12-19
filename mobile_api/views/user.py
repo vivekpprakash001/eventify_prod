@@ -230,6 +230,46 @@ class UpdateProfileView(View):
                     user.pincode = None
                     updated_fields.append('pincode')
 
+            # Update district
+            if 'district' in json_data:
+                district = json_data.get('district', '').strip()
+                if district:
+                    user.district = district
+                    updated_fields.append('district')
+                elif district == '':
+                    user.district = None
+                    updated_fields.append('district')
+
+            # Update state
+            if 'state' in json_data:
+                state = json_data.get('state', '').strip()
+                if state:
+                    user.state = state
+                    updated_fields.append('state')
+                elif state == '':
+                    user.state = None
+                    updated_fields.append('state')
+
+            # Update country
+            if 'country' in json_data:
+                country = json_data.get('country', '').strip()
+                if country:
+                    user.country = country
+                    updated_fields.append('country')
+                elif country == '':
+                    user.country = None
+                    updated_fields.append('country')
+
+            # Update place
+            if 'place' in json_data:
+                place = json_data.get('place', '').strip()
+                if place:
+                    user.place = place
+                    updated_fields.append('place')
+                elif place == '':
+                    user.place = None
+                    updated_fields.append('place')
+
             # Handle profile_picture (multipart form-data only)
             if 'profile_photo' in request.FILES:
                 # Handle file upload from multipart/form-data
@@ -262,6 +302,10 @@ class UpdateProfileView(View):
                         'last_name': user.last_name,
                         'phone_number': user.phone_number,
                         'pincode': user.pincode,
+                        'district': user.district,
+                        'state': user.state,
+                        'country': user.country,
+                        'place': user.place,
                         'profile_picture': user.profile_picture.url if user.profile_picture else None,
                     }
                 }, status=200)
