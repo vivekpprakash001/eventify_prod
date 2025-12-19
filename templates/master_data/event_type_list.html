@@ -5,19 +5,26 @@
   <a class="btn btn-success" href="{% url 'master_data:event_type_add' %}">Add Category</a>
 </div>
 <table class="table table-striped">
-  <thead><tr><th>#</th><th>Event Type</th><th>Actions</th></tr></thead>
+  <thead><tr><th>#</th><th>Event Type</th><th>Icon</th><th>Actions</th></tr></thead>
   <tbody>
     {% for c in categories %}
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ c.event_type }}</td>
         <td>
+          {% if c.event_type_icon %}
+            <img src="{{ c.event_type_icon.url }}" width="50" height="50" alt="{{ c.event_type }}">
+          {% else %}
+            <span class="text-muted">No icon</span>
+          {% endif %}
+        </td>
+        <td>
           <a class="btn btn-sm btn-primary" href="{% url 'master_data:event_type_edit' c.pk %}">Edit</a>
           <a class="btn btn-sm btn-danger" href="{% url 'master_data:event_type_delete' c.pk %}">Delete</a>
         </td>
       </tr>
     {% empty %}
-      <tr><td colspan="3">No categories yet.</td></tr>
+      <tr><td colspan="4">No categories yet.</td></tr>
     {% endfor %}
   </tbody>
 </table>
