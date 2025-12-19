@@ -71,23 +71,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eventify.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'eventify_uat_db',      # your DB name
-#         'USER': 'eventify_uat',          # your DB user
-#         'PASSWORD': 'eventifyplus@!@#$',  # your DB password
-#         'HOST': '0.0.0.0',       # or IP/domain
-#         'PORT': '5440',            # default PostgreSQL port
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'eventify_uat_db',      # your DB name
+        'USER': 'eventify_uat',          # your DB user
+        'PASSWORD': 'eventifyplus@!@#$',  # your DB password
+        'HOST': '0.0.0.0',       # or IP/domain
+        'PORT': '5440',            # default PostgreSQL port
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

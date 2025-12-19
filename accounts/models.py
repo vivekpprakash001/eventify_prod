@@ -29,6 +29,8 @@ class User(AbstractUser):
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
 
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True, default='default.png')
+
     objects = UserManager()
 
     def __str__(self):

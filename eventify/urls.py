@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 # from accounts.customer_views import login_view, logout_view, customer_dashboard, customer_calendar
 # from accounts.customer_views import customer_profile
 from accounts import views
+from mobile_api.views.user import WebRegisterView
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -18,8 +19,8 @@ urlpatterns = [
     # path('calendar/', customer_calendar, name='customer_calendar'),
     # path('profile/', customer_profile, name='customer_profile'),
 
-
     path('', views.login_view, name='login'),
+    path('register/', WebRegisterView.as_view(), name='register'),
     path('logout/', views.logout_view, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('users/', views.UserListView.as_view(), name='user_list'),

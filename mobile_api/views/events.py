@@ -240,12 +240,23 @@ class EventsByMonthYearAPI(APIView):
             
             # Filter events where start_date or end_date falls in the given month/year
             # An event is included if any part of it (start_date to end_date) overlaps with the month
-            events = Event.objects.filter(
-                Q(start_date__year=year, start_date__month=month_number) |
-                Q(end_date__year=year, end_date__month=month_number) |
-                Q(start_date__lte=datetime(year, month_number, 1).date(),
-                  end_date__gte=datetime(year, month_number, calendar.monthrange(year, month_number)[1]).date())
-            ).distinct()
+            # events = Event.objects.filter(
+            #     Q(start_date__year=year, start_date__month=month_number) |
+            #     Q(end_date__year=year, end_date__month=month_number) |
+            #     Q(start_date__lte=datetime(year, month_number, 1).date(),
+            #       end_date__gte=datetime(year, month_number, calendar.monthrange(year, month_number)[1]).date())
+            # ).distinct()
+
+            events = Event.objects.filter(start_date__year=year, start_date__month=month_number).distinct()
+            print('*' * 100)
+            print(f'Total events: {events.count()}')
+            print('*' * 100)
+            unique_start_dates = events.values_list('start_date', flat=True).distinct()
+            date_strings = [d.strftime('%Y-%m-%d') for d in unique_start_dates]
+            print('*' * 100)
+            print(f'Unique start dates: {date_strings}')
+            print('*' * 100)
+
             
             # Group events by date
             date_events_dict = {}
@@ -293,7 +304,7 @@ class EventsByMonthYearAPI(APIView):
             
             return JsonResponse({
                 "status": "success",
-                "dates": sorted_dates,
+                "dates": date_strings,
                 "total_number_of_events": total_events,
                 "date_events": date_events
             })
@@ -334,9 +345,8 @@ class EventsByDateAPI(APIView):
             
             # Filter events where the provided date falls between start_date and end_date (inclusive)
             events = Event.objects.filter(
-                start_date__lte=event_date,
-                end_date__gte=event_date
-            ).order_by('start_date', 'start_time')
+                start_date=event_date
+            ).order_by('start_date')
             
             event_list = []
             

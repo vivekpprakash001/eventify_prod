@@ -8,6 +8,7 @@ urlpatterns = [
     path('user/login/', LoginView.as_view(), name='json_login'),
     path('user/status/', StatusView.as_view(), name='user_status'),
     path('user/logout/', LogoutView.as_view(), name='user_logout'),
+    path('user/update-profile/', UpdateProfileView.as_view(), name='update_profile'),
 ]
 
 # Event URLS

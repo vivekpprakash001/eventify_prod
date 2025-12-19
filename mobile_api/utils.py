@@ -12,13 +12,14 @@ def validate_token_and_get_user(request, error_status_code=None):
     Validates token and username from request body.
     
     This function handles:
-    - JSON parsing from request body
+    - JSON parsing from request body (for application/json requests)
+    - Form data parsing (for multipart/form-data requests)
     - Token and username extraction
     - Token validation
     - Username verification against token user
     
     Args:
-        request: Django request object with JSON body containing 'token' and 'username'
+        request: Django request object with JSON body or form data containing 'token' and 'username'
         error_status_code: Optional HTTP status code for error responses (default: None)
     
     Returns:
@@ -31,15 +32,22 @@ def validate_token_and_get_user(request, error_status_code=None):
         - Invalid token: {"status": "invalid_token"} (401 if status_code provided)
         - Username mismatch: {"status": "error", "message": "token does not match user"} (401 if status_code provided)
     """
-    try:
-        # Parse JSON from request body
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        status = 400 if error_status_code else None
-        return (None, None, None, JsonResponse(
-            {"status": "error", "message": "Invalid JSON"},
-            status=status
-        ))
+    # Check if it's multipart/form-data
+    is_multipart = request.content_type and 'multipart/form-data' in request.content_type
+    
+    if is_multipart:
+        # For multipart/form-data, get data from POST
+        data = request.POST.dict()
+    else:
+        # For JSON requests, parse from body
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            status = 400 if error_status_code else None
+            return (None, None, None, JsonResponse(
+                {"status": "error", "message": "Invalid JSON"},
+                status=status
+            ))
     
     # Extract token and username
     token_key = data.get("token")
@@ -62,6 +70,8 @@ def validate_token_and_get_user(request, error_status_code=None):
                 user = User.objects.get(email=username)
             else:
                 user = User.objects.get(username=username)
+        else:
+            user = None
 
         if not user:
             status = 401 if error_status_code else None
@@ -85,6 +95,12 @@ def validate_token_and_get_user(request, error_status_code=None):
         status = 401 if error_status_code else None
         return (None, None, None, JsonResponse(
             {"status": "invalid_token"},
+            status=status
+        ))
+    except User.DoesNotExist:
+        status = 401 if error_status_code else None
+        return (None, None, None, JsonResponse(
+            {"status": "error", "message": "user not found"},
             status=status
         ))
 
