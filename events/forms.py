@@ -13,10 +13,11 @@ class EventForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'important_information': forms.Textarea(attrs={'class': 'form-control'}),
             'venue_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'start_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
-            'end_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'id': 'id_start_date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'id': 'id_end_date'}),
+            'start_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time', 'id': 'id_start_time'}),
+            'end_time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time', 'id': 'id_end_time'}),
+            'all_year_event': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'id_all_year_event'}),
             'latitude': forms.NumberInput(attrs={'class': 'form-control'}),
             'longitude': forms.NumberInput(attrs={'class': 'form-control'}),
             'pincode': forms.TextInput(attrs={'class': 'form-control'}),
@@ -30,6 +31,37 @@ class EventForm(forms.ModelForm):
             'is_bookable': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_eventify_event': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Check if all_year_event is True (from instance or initial data)
+        all_year_event = False
+        if self.instance and self.instance.pk:
+            all_year_event = self.instance.all_year_event
+        elif 'all_year_event' in self.initial:
+            all_year_event = self.initial['all_year_event']
+        elif self.data and 'all_year_event' in self.data:
+            all_year_event = self.data.get('all_year_event') == 'on' or self.data.get('all_year_event') == 'True'
+        
+        # If all_year_event is True, disable date/time fields
+        if all_year_event:
+            self.fields['start_date'].widget.attrs['disabled'] = True
+            self.fields['end_date'].widget.attrs['disabled'] = True
+            self.fields['start_time'].widget.attrs['disabled'] = True
+            self.fields['end_time'].widget.attrs['disabled'] = True
+
+    def clean(self):
+        cleaned_data = super().clean()
+        all_year_event = cleaned_data.get('all_year_event', False)
+        
+        # If all_year_event is True, clear date/time fields
+        if all_year_event:
+            cleaned_data['start_date'] = None
+            cleaned_data['end_date'] = None
+            cleaned_data['start_time'] = None
+            cleaned_data['end_time'] = None
+        
+        return cleaned_data
 
 
 class MultipleFileInput(forms.ClearableFileInput):

@@ -6,10 +6,11 @@ class Event(models.Model):
     created_date = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
+    all_year_event = models.BooleanField(default=False)
 
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)

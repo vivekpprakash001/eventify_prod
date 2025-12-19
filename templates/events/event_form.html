@@ -20,4 +20,30 @@
             <a class="btn btn-secondary" href="{% url 'events:event_list' %}">Cancel</a>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const allYearEventCheckbox = document.getElementById('id_all_year_event');
+            const startDateField = document.getElementById('id_start_date');
+            const endDateField = document.getElementById('id_end_date');
+            const startTimeField = document.getElementById('id_start_time');
+            const endTimeField = document.getElementById('id_end_time');
+
+            function toggleDateTimeFields() {
+                const isDisabled = allYearEventCheckbox.checked;
+                startDateField.disabled = isDisabled;
+                endDateField.disabled = isDisabled;
+                startTimeField.disabled = isDisabled;
+                endTimeField.disabled = isDisabled;
+            }
+
+            // Set initial state
+            toggleDateTimeFields();
+
+            // Listen for checkbox changes
+            if (allYearEventCheckbox) {
+                allYearEventCheckbox.addEventListener('change', toggleDateTimeFields);
+            }
+        });
+    </script>
 {% endblock %}
