@@ -31,6 +31,7 @@ urlpatterns = [
     path('master-data/', include('master_data.urls')),
     path('events/', include('events.urls')),
     path('accounts/', include('accounts.urls')),
+    path('bookings/', include('bookings.urls')),
     path('api/', include('mobile_api.urls')),
     # path('web-api/', include('web_api.urls')),
 ]
